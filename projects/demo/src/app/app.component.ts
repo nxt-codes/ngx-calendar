@@ -49,4 +49,8 @@ export class AppComponent {
       start: new Date(),
     },
   ];
+
+  eventClicked({ event }: { event: CalendarEvent }): void {
+    console.log('Event clicked', event)
+  }
 }

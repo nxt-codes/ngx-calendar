@@ -1,1 +1,21 @@
-<calendar-day-view [viewDate]="viewDate" [events]="events"></calendar-day-view>
+<calendar-day-view [viewDate]="viewDate" [events]="events" [eventTemplate]="customEventTemplate" (eventClicked)="eventClicked($event)"></calendar-day-view>
+
+<ng-template
+  #customEventTemplate
+  let-weekEvent="weekEvent"
+  let-tooltipPlacement="tooltipPlacement"
+  let-eventClicked="eventClicked"
+  let-tooltipTemplate="tooltipTemplate"
+  let-tooltipAppendToBody="tooltipAppendToBody"
+  let-tooltipDisabled="tooltipDisabled"
+  let-tooltipDelay="tooltipDelay"
+  let-column="column"
+>
+    <!-- <ng-container *ngIf="!weekEvent.event.meta.groupedEvents">
+      <mwl-calendar-event-actions [event]="weekEvent.event">
+      </mwl-calendar-event-actions>
+      &ngsp;
+    </ng-container>
+    <mwl-calendar-event-title [event]="weekEvent.event" view="week">
+    </mwl-calendar-event-title> -->
+</ng-template>

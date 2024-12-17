@@ -24,7 +24,7 @@ export interface User {
     name: string;
     color: EventColor;
 }
-interface DayViewScheduler extends WeekView {
+export interface DayViewScheduler extends WeekView {
     users: User[];
 }
 export interface EventColor {
@@ -111,6 +111,24 @@ export interface GetWeekViewArgs {
     viewEnd?: Date;
     minimumEventHeight?: number;
 }
-interface GetWeekViewArgsWithUsers extends GetWeekViewArgs {
+export interface GetWeekViewArgsWithUsers extends GetWeekViewArgs {
     users: User[];
 }
+
+export interface WeekViewAllDayEventResize {
+    originalOffset: number;
+    originalSpan: number;
+    edge: string;
+}
+
+export declare class Positioning {
+    private getAllStyles;
+    private getStyle;
+    private isStaticPositioned;
+    private offsetParent;
+    position(element: HTMLElement, round?: boolean): ClientRect;
+    offset(element: HTMLElement, round?: boolean): ClientRect;
+    positionElements(hostElement: HTMLElement, targetElement: HTMLElement, placement: string, appendToBody?: boolean): boolean;
+}
+export declare type Placement = 'auto' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
+export declare type PlacementArray = Placement | Array<Placement> | string;

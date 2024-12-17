@@ -276,22 +276,22 @@ export function addDaysWithExclusions(date: Date, days: number, excluded: number
     return date
 }
 export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded: number[] = [], daysInWeek?: number): { viewStart: Date; viewEnd: Date } {
-    let startOfDay = getStartOfDay(viewDate)
-    let startOfWeek = getStartOfWeek(viewDate, weekStartsOn)
-    let endOfWeek = getEndOfWeek(viewDate, weekStartsOn)
+    const startOfDay = getStartOfDay(viewDate).toString()
+    const startOfWeek = getStartOfWeek(viewDate, weekStartsOn).toString()
+    const endOfWeek = getEndOfWeek(viewDate, weekStartsOn).toString()
     let viewStart = daysInWeek ? startOfDay : startOfWeek
-    while (excluded.indexOf(viewDate.getDay()) > -1 && viewStart < endOfWeek) {
-      viewStart = addDate(viewStart, 1)
+    while (excluded.indexOf(viewDate.getDay()) > -1 && new Date(viewStart) < new Date(endOfWeek)) {
+      viewStart = addDate(new Date(viewStart), 1).toString()
     }
     if (daysInWeek) {
-      const viewEnd = getEndOfDay(addDaysWithExclusions(viewStart, daysInWeek - 1, excluded))
-      return { viewStart, viewEnd }
+      const viewEnd = getEndOfDay(addDaysWithExclusions(new Date(viewStart), daysInWeek - 1, excluded))
+      return { viewStart: new Date(viewStart), viewEnd }
     } else {
-      let viewEnd = endOfWeek
-      while (excluded.indexOf(viewDate.getDay()) > -1 && viewEnd > viewStart) {
+      let viewEnd = new Date(endOfWeek)
+      while (excluded.indexOf(viewDate.getDay()) > -1 && new Date(viewEnd) > new Date(viewStart)) {
         viewEnd = subDays(viewEnd, 1)
       }
-      return { viewStart, viewEnd }
+      return { viewStart: new Date(viewStart), viewEnd }
     }
 }
 
