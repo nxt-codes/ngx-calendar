@@ -248,11 +248,9 @@ export function getStartOfWeek(date: Date, weekStartsOn: number = 0): Date {
     return date
 }
 export function getEndOfWeek(date: Date, weekStartsOn: number = 0): Date {
-    console.log('date', date, 'weekStartsOn', weekStartsOn)
     const diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : weekStartsOn)
     date.setDate(diff + 6)
     date.setHours(23,59,59,999)
-    console.log('date', date)
     return date
 }
 export function getDayOfWeek(date: Date): number {
@@ -276,6 +274,25 @@ export function addDaysWithExclusions(date: Date, days: number, excluded: number
         date.setDate(date.getDate() + 1)
     }
     return date
+}
+export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded: number[] = [], daysInWeek?: number): { viewStart: Date; viewEnd: Date } {
+    let startOfDay = getStartOfDay(viewDate)
+    let startOfWeek = getStartOfWeek(viewDate, weekStartsOn)
+    let endOfWeek = getEndOfWeek(viewDate, weekStartsOn)
+    let viewStart = daysInWeek ? startOfDay : startOfWeek
+    while (excluded.indexOf(viewDate.getDay()) > -1 && viewStart < endOfWeek) {
+      viewStart = addDate(viewStart, 1)
+    }
+    if (daysInWeek) {
+      const viewEnd = getEndOfDay(addDaysWithExclusions(viewStart, daysInWeek - 1, excluded))
+      return { viewStart, viewEnd }
+    } else {
+      let viewEnd = endOfWeek
+      while (excluded.indexOf(viewDate.getDay()) > -1 && viewEnd > viewStart) {
+        viewEnd = subDays(viewEnd, 1)
+      }
+      return { viewStart, viewEnd }
+    }
 }
 
 // hash

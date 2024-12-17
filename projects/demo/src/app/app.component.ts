@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CalendarDayViewComponent, CalendarEvent } from '../../../ngx-calendar/src/public-api';
+import { CalendarModule } from '../../../ngx-calendar/src/lib/ngx-calendar.module';
 
 export const colors: any = {
   red: {
