@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CalendarDayViewComponent, CalendarEvent } from '../../../ngx-calendar/src/public-api';
+import { CalendarDayViewComponent, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from '../../../ngx-calendar/src/public-api';
 import { CalendarModule } from '../../../ngx-calendar/src/lib/ngx-calendar.module';
+import { Subject } from 'rxjs';
+import { isSameDay } from '../../../ngx-calendar/src/lib/utils/myutils';
+import { CalendarWeekViewComponent } from '../../../ngx-calendar/src/lib/components/week/calendar-week-view/calendar-week-view.component';
 
 export const colors: any = {
   red: {
@@ -22,19 +25,17 @@ export const colors: any = {
   selector: 'app-root',
   standalone: true,
   imports: [
-    CalendarDayViewComponent
+    CalendarDayViewComponent,
+    CalendarWeekViewComponent
     // RouterOutlet
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  viewDate: Date = new Date()
-  weekStartsOn: number = 1
-  excludeDays: number[] = []
-  weekendDays: number[] = [0, 6]
+  view: CalendarView = CalendarView.Week;
 
-  constructor() {}
+  viewDate: Date = new Date()
   
   events: CalendarEvent[] = [
     {
@@ -50,7 +51,50 @@ export class AppComponent {
     },
   ];
 
-  eventClicked({ event }: { event: CalendarEvent }): void {
-    console.log('Event clicked', event)
+  refresh = new Subject<void>()
+
+  validateEventTimesChanged = (
+    { event, newStart, newEnd, allDay }: CalendarEventTimesChangedEvent,
+    addCssClass = true
+  ) => {
+    if (event.allDay) {
+      return true;
+    }
+
+    delete event.cssClass;
+    // don't allow dragging or resizing events to different days
+    const sameDay = isSameDay(newStart, newEnd!);
+
+    if (!sameDay) {
+      return false;
+    }
+
+    // don't allow dragging events to the same times as other events
+    const overlappingEvent = this.events.find((otherEvent) => {
+      return (otherEvent !== event && !otherEvent.allDay && ((otherEvent.start < newStart && newStart < otherEvent.end!) || (otherEvent.start < newEnd! && newStart < otherEvent.end!))
+      );
+    });
+
+    if (overlappingEvent) {
+      if (addCssClass) {
+        event.cssClass = 'invalid-position';
+      } else {
+        return false;
+      }
+    }
+
+    return true;
+  };
+  
+  eventTimesChanged(
+    eventTimesChangedEvent: CalendarEventTimesChangedEvent
+  ): void {
+    delete eventTimesChangedEvent.event.cssClass;
+    if (this.validateEventTimesChanged(eventTimesChangedEvent, false)) {
+      const { event, newStart, newEnd } = eventTimesChangedEvent;
+      event.start = newStart;
+      event.end = newEnd;
+      this.refresh.next();
+    }
   }
 }

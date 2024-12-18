@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { PlacementArray, WeekViewAllDayEvent, WeekViewHourColumn, WeekViewTimeEvent } from '../../models/models';
-import { CalendarEventTitleComponent } from '../templates/calendar-event-title/calendar-event-title.component';
+import { PlacementArray, WeekViewAllDayEvent, WeekViewHourColumn, WeekViewTimeEvent } from '../../../models/models';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'calendar-week-view-event',
   standalone: true,
   imports: [
-    CalendarEventTitleComponent,
     CommonModule
   ],
   templateUrl: './calendar-week-view-event.component.html',

@@ -1,4 +1,0 @@
-<ng-template #defaultTemplate let-event="event" let-view="view">
-    <span class="cal-event-title" [innerHTML]="event.title"></span>
-</ng-template>
-<ng-template [ngTemplateOutlet]="customTemplate || defaultTemplate" [ngTemplateOutletContext]="{ event: event, view: view }"></ng-template>

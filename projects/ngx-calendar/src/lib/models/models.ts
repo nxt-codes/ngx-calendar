@@ -132,3 +132,20 @@ export declare class Positioning {
 }
 export declare type Placement = 'auto' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
 export declare type PlacementArray = Placement | Array<Placement> | string;
+
+export enum CalendarEventTimesChangedEventType {
+    Drag = 'drag',
+    Drop = 'drop',
+    Resize = 'resize',
+}
+
+/**
+ * The output `$event` type when an event is resized or dragged and dropped.
+ */
+export interface CalendarEventTimesChangedEvent<MetaType = any> {
+    type: CalendarEventTimesChangedEventType;
+    event: CalendarEvent<MetaType>;
+    newStart: Date;
+    newEnd?: Date;
+    allDay?: boolean;
+}

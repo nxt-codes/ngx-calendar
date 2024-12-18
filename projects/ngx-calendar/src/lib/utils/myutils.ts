@@ -2,6 +2,7 @@
 // import JWT from 'expo-jwt'
 
 import { IsActiveMatchOptions } from "@angular/router"
+import { CalendarEvent } from "../models/models"
 
 export function isMobile(): boolean {
     var ua = navigator.userAgent
@@ -268,6 +269,9 @@ export function getEndOfDay(date: Date): Date {
     date.setHours(23,59,59,999)
     return date
 }
+export function isSameDay(date1: Date, date2: Date): boolean {
+    return date1.toDateString() === date2.toDateString()
+}
 export function addDaysWithExclusions(date: Date, days: number, excluded: number[]): Date {
     date.setDate(date.getDate() + days)
     while (excluded.indexOf(date.getDay()) > -1) {
@@ -294,6 +298,11 @@ export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded
       return { viewStart: new Date(viewStart), viewEnd }
     }
 }
+export const validateEvents = (events: CalendarEvent[]) => {
+    const warn = (...args: any[]) => console.warn('angular-calendar', ...args);
+    return validateEventsWithoutLog(events, warn);
+}
+export declare function validateEventsWithoutLog(events: CalendarEvent[], log: (...args: any[]) => void): boolean;
 
 // hash
 // npm i sha.js
