@@ -5,6 +5,7 @@ import { CalendarModule } from '../../../ngx-calendar/src/lib/ngx-calendar.modul
 import { Subject } from 'rxjs';
 import { isSameDay } from '../../../ngx-calendar/src/lib/utils/myutils';
 import { CalendarWeekViewComponent } from '../../../ngx-calendar/src/lib/components/week/calendar-week-view/calendar-week-view.component';
+import { CommonModule } from '@angular/common';
 
 export const colors: any = {
   red: {
@@ -26,14 +27,15 @@ export const colors: any = {
   standalone: true,
   imports: [
     CalendarDayViewComponent,
-    CalendarWeekViewComponent
+    CalendarWeekViewComponent,
+    CommonModule
     // RouterOutlet
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Week
 
   viewDate: Date = new Date()
   

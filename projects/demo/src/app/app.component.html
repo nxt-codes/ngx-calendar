@@ -1,2 +1,4 @@
-<calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [validateEventTimesChanged]="validateEventTimesChanged" (eventTimesChanged)="eventTimesChanged($event)"></calendar-week-view>
-<calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [validateEventTimesChanged]="validateEventTimesChanged" (eventTimesChanged)="eventTimesChanged($event)"></calendar-day-view>
+<div [ngSwitch]="view">
+  <calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [validateEventTimesChanged]="validateEventTimesChanged" (eventTimesChanged)="eventTimesChanged($event)"></calendar-week-view>
+  <!-- <calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [validateEventTimesChanged]="validateEventTimesChanged" (eventTimesChanged)="eventTimesChanged($event)"></calendar-day-view> -->
+</div>

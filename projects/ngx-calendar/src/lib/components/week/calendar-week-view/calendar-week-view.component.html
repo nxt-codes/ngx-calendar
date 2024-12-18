@@ -1,18 +1,17 @@
 <div class="cal-week-view" role="grid">
-    <!-- <mwl-calendar-week-view-header [days]="days" [locale]="locale" [customTemplate]="headerTemplate"
-        (dayHeaderClicked)="dayHeaderClicked.emit($event)" (eventDropped)="
-        eventDropped({ dropData: $event }, $event.newStart, true)
-      " (dragEnter)="dateDragEnter($event.date)">
-    </mwl-calendar-week-view-header> -->
+    <calendar-week-view-header [days]="days" (dayHeaderClicked)="dayHeaderClicked.emit($event)">
+      <!-- [locale]="locale" [customTemplate]="headerTemplate" -->
+      <!-- (eventDropped)="eventDropped({ dropData: $event }, $event.newStart, true)" (dragEnter)="dateDragEnter($event.date)" -->
+    </calendar-week-view-header>
     <div class="cal-all-day-events" #allDayEventsContainer *ngIf="view.allDayEventRows.length > 0">
         <!-- mwlDroppable (dragEnter)="dragEnter('allDay')" (dragLeave)="dragLeave('allDay')" -->
         <div class="cal-day-columns">
             <div class="cal-time-label-column">
                 <!-- <ng-container *ngTemplateOutlet="allDayEventsLabelTemplate"></ng-container> -->
             </div>
-            <!-- <div class="cal-day-column" *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate" mwlDroppable
-                dragOverClass="cal-drag-over" (drop)="eventDropped($event, day.date, true)"
-                (dragEnter)="dateDragEnter(day.date)"></div> -->
+            <div class="cal-day-column" *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate">
+              <!-- mwlDroppable dragOverClass="cal-drag-over" (drop)="eventDropped($event, day.date, true)" (dragEnter)="dateDragEnter(day.date)" -->
+            </div>
         </div>
         <!-- <div *ngFor="let eventRow of view.allDayEventRows; trackBy: trackById" #eventRowContainer
             class="cal-events-row">

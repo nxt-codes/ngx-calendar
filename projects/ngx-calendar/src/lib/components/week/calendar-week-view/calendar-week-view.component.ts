@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarEvent, CalendarEventTimesChangedEvent, WeekView, WeekViewAllDayEvent, WeekViewAllDayEventResize, WeekViewAllDayEventRow, WeekViewHour, WeekViewHourColumn, WeekViewHourSegment, WeekViewTimeEvent } from '../../../models/models';
+import { CalendarEvent, CalendarEventTimesChangedEvent, DayViewScheduler, GetWeekViewArgs, WeekView, WeekViewAllDayEvent, WeekViewAllDayEventResize, WeekViewAllDayEventRow, WeekViewHour, WeekViewHourColumn, WeekViewHourSegment, WeekViewTimeEvent } from '../../../models/models';
 import { Subject, Subscription } from 'rxjs';
 import { ResizeCursors, ResizeEvent } from '@christophhu/ngx-resizeable/public-api';
 import { DragMoveEvent, DropEvent } from '@christophhu/ngx-drag-n-drop/public-api';
-import { validateEvents } from '../../../utils/myutils';
+import { addDate, getDayObject, getWeekViewPeriod, validateEvents } from '../../../utils/myutils';
+import { DefaultLibConfiguration, LibConfigurationProvider, LibToConfigureConfiguration } from '../../../config/calendar-config';
+import { CalendarWeekViewHeaderComponent } from '../calendar-week-view-header/calendar-week-view-header.component';
 
 export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
   header: WeekDay[];
@@ -23,6 +25,7 @@ export interface WeekDay {
   selector: 'calendar-week-view',
   standalone: true,
   imports: [
+    CalendarWeekViewHeaderComponent,
     CommonModule
   ],
   templateUrl: './calendar-week-view.component.html',
@@ -78,7 +81,11 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   
   // private lastDragEnterDate: Date
 
-  constructor(protected cdr: ChangeDetectorRef, protected element: ElementRef<HTMLElement>) {}
+  config: LibToConfigureConfiguration = {}
+  
+  constructor(protected cdr: ChangeDetectorRef, protected element: ElementRef<HTMLElement>, public configurationProvider: LibConfigurationProvider, private defaultLibConfiguration: DefaultLibConfiguration) {
+    this.config = Object.assign(defaultLibConfiguration.config, configurationProvider.config)
+  }
 
   ngAfterViewInit(): void {
     this.rtl = typeof window !== 'undefined' && getComputedStyle(this.element.nativeElement).direction === 'rtl'
@@ -309,20 +316,30 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   // }
 
   protected refreshHeader(): void {
-    this.days = this.utils.getWeekViewHeader({
-      viewDate: this.viewDate,
-      weekStartsOn: this.weekStartsOn,
-      excluded: this.excludeDays,
-      weekendDays: this.weekendDays,
-      ...getWeekViewPeriod(
-        this.dateAdapter,
-        this.viewDate,
-        this.weekStartsOn,
-        this.excludeDays,
-        this.daysInWeek
-      ),
-    });
+    this.days = this.prepareWeekViewHeader(this.viewDate);
     console.log('days', this.days)
+  }
+
+  prepareWeekViewHeader(viewDate: Date): WeekDay[] {
+    let days: WeekDay[] = []
+    let { viewStart, viewEnd } = getWeekViewPeriod(viewDate, this.weekStartsOn, this.excludeDays, this.daysInWeek)
+    if (viewStart && viewEnd) {
+      while (viewStart <= viewEnd) {
+        const dayObj = getDayObject(viewStart, this.weekStartsOn, this.excludeDays, this.weekendDays)
+        days.push(dayObj)
+        viewStart = addDate(viewStart, 1)
+      }
+    }
+    // if (viewStart && viewEnd) {
+    //   while (viewStart <= viewEnd) {
+    //     const dayObj = getDayObject(viewStart, this.config.weekStartsOn!, this.config.excludeDays!, this.config.weekendDays!)
+    //     days.push(dayObj)
+    //     viewStart = addDate(viewStart, 1)
+    //   }
+    //   this._days.next(days)
+    // }
+    
+    return days
   }
 
   protected refreshBody(): void {
@@ -348,7 +365,7 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   }
 
   protected getWeekView(events: CalendarEvent[]) {
-    return this.utils.getWeekView({
+    return this.prepareWeekView({
       events,
       viewDate: this.viewDate,
       weekStartsOn: this.weekStartsOn,
@@ -369,13 +386,25 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
       weekendDays: this.weekendDays,
       minimumEventHeight: this.minimumEventHeight,
       ...getWeekViewPeriod(
-        this.dateAdapter,
+        // this.dateAdapter,
         this.viewDate,
         this.weekStartsOn,
         this.excludeDays,
         this.daysInWeek
       ),
     });
+  }
+
+  prepareWeekView(args: GetWeekViewArgs): WeekView {
+    const period = { start: args.viewStart ? args.viewStart : args.viewDate, end: args.viewEnd ? args.viewEnd : args.viewDate, events: args.events ? args.events : [] }
+    
+    const view: WeekView = {
+      period,
+      allDayEventRows: [],
+      hourColumns: []
+    }
+
+    return view
   }
 
   // protected getDragMovedEventTimes(

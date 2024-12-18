@@ -299,10 +299,12 @@ export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded
     }
 }
 export const validateEvents = (events: CalendarEvent[]) => {
-    const warn = (...args: any[]) => console.warn('angular-calendar', ...args);
-    return validateEventsWithoutLog(events, warn);
+    const warn = (...args: any[]) => console.warn('angular-calendar', ...args)
+    return validateEventsWithoutLog(events, warn)
 }
-export declare function validateEventsWithoutLog(events: CalendarEvent[], log: (...args: any[]) => void): boolean;
+export function validateEventsWithoutLog(events: CalendarEvent[], log: (...args: any[]) => void): boolean {
+    return true
+}
 
 // hash
 // npm i sha.js
