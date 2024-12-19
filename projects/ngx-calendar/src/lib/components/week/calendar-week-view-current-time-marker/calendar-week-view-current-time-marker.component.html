@@ -1,0 +1,3 @@
+<div *ngIf="(marker$ | async) as marker">
+    <div class="cal-current-time-marker" *ngIf="marker.isVisible" [style.top.px]="marker.top"></div>
+</div>

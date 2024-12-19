@@ -41,6 +41,22 @@ export class AppComponent {
   
   events: CalendarEvent[] = [
     {
+      start: new Date("2024-12-17T23:00:00.000Z"),
+      end: new Date("2024-12-20T11:35:57.828Z"),
+      title: "A 3 day event",
+      color: {
+          primary: "#ad2121",
+          secondary: "#FAE3E3"
+      },
+      actions: [],
+      allDay: true,
+      resizable: {
+          beforeStart: true,
+          afterEnd: true
+      },
+      draggable: true
+    },
+    {
       title: 'An all day event',
       color: colors.yellow,
       start: new Date(),

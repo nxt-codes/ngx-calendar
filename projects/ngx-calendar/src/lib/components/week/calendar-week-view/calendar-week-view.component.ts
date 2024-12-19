@@ -7,6 +7,8 @@ import { DragMoveEvent, DropEvent } from '@christophhu/ngx-drag-n-drop/public-ap
 import { addDate, getDayObject, getWeekViewPeriod, validateEvents } from '../../../utils/myutils';
 import { DefaultLibConfiguration, LibConfigurationProvider, LibToConfigureConfiguration } from '../../../config/calendar-config';
 import { CalendarWeekViewHeaderComponent } from '../calendar-week-view-header/calendar-week-view-header.component';
+import { CalendarWeekViewHourSegmentComponent } from '../calendar-week-view-hour-segment/calendar-week-view-hour-segment.component';
+import { CalendarWeekViewCurrentTimeMarkerComponent } from '../calendar-week-view-current-time-marker/calendar-week-view-current-time-marker.component';
 
 export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
   header: WeekDay[];
@@ -25,19 +27,21 @@ export interface WeekDay {
   selector: 'calendar-week-view',
   standalone: true,
   imports: [
+    CalendarWeekViewCurrentTimeMarkerComponent,
     CalendarWeekViewHeaderComponent,
+    CalendarWeekViewHourSegmentComponent,
     CommonModule
   ],
   templateUrl: './calendar-week-view.component.html',
   styleUrl: './calendar-week-view.component.sass'
 })
 export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, AfterViewInit {
-  @Input() viewDate: Date = new Date()
+  @Input() viewDate!: Date
   @Input() events: CalendarEvent[] = []
   @Input() excludeDays: number[] = []
   @Input() refresh: Subject<any> = new Subject()
   
-  @Input() weekStartsOn: number = 0
+  @Input() weekStartsOn: number = 1
 
   @Input() precision: 'days' | 'minutes' = 'days'
   @Input() weekendDays: number[] = [0, 6]
@@ -85,6 +89,7 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   
   constructor(protected cdr: ChangeDetectorRef, protected element: ElementRef<HTMLElement>, public configurationProvider: LibConfigurationProvider, private defaultLibConfiguration: DefaultLibConfiguration) {
     this.config = Object.assign(defaultLibConfiguration.config, configurationProvider.config)
+    console.log('viewDate', this.viewDate)
   }
 
   ngAfterViewInit(): void {
@@ -344,9 +349,9 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
 
   protected refreshBody(): void {
     this.view = this.getWeekView(this.events);
-    console.log('events', this.events)
-    console.log('view', this.view)
-    console.log('allDayEvent', JSON.parse(JSON.stringify(this.view.allDayEventRows)))
+    console.warn('events', this.events)
+    console.warn('view', this.view)
+    console.warn('allDayEvent', JSON.parse(JSON.stringify(this.view.allDayEventRows)))
   }
 
   protected refreshAll(): void {
@@ -364,7 +369,8 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
     }
   }
 
-  protected getWeekView(events: CalendarEvent[]) {
+  getWeekView(events: CalendarEvent[]) {
+    console.log('viewDate', this.viewDate)
     return this.prepareWeekView({
       events,
       viewDate: this.viewDate,
@@ -396,12 +402,37 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   }
 
   prepareWeekView(args: GetWeekViewArgs): WeekView {
+    console.warn('args', args)
     const period = { start: args.viewStart ? args.viewStart : args.viewDate, end: args.viewEnd ? args.viewEnd : args.viewDate, events: args.events ? args.events : [] }
-    
+    console.log('period', period)
+    let hourColumns: WeekViewHourColumn[] = []
+    let allDayEventRows: WeekViewAllDayEventRow[] = []
+
+    // allDayEventRows
+    let allDayEvents = args.events?.filter((event: CalendarEvent) => event.allDay)
+    allDayEvents?.forEach((event: CalendarEvent) => {
+      // event: CalendarEvent;
+      // offset: number;
+      // span: number;
+      // startsBeforeWeek: boolean;
+      // endsAfterWeek: boolean;
+      let offset = 3
+      let span = 3
+      const endsAfterWeek: boolean = event.end ? event.end > period.end : false
+      const startsBeforeWeek: boolean = event.start < period.start
+
+      const newEvent = { endsAfterWeek, event, offset, span, startsBeforeWeek }
+      allDayEventRows.push({ row: [newEvent] })
+    })
+
+    // if (args.viewStart && args.viewEnd) {
+    //   hourColumns = this.prepareDayViewHourColumns(period, args.dayStart, args.dayEnd)
+    //   allDayEventRows = this.getAllDayEventRows(period, args.events)
+    // }
     const view: WeekView = {
       period,
-      allDayEventRows: [],
-      hourColumns: []
+      allDayEventRows,
+      hourColumns
     }
 
     return view
@@ -683,12 +714,12 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   //   return { start, end };
   // }
 
-  trackByWeekDayHeaderDate = (index: number, day: WeekDay) => day.date.toISOString()
-  trackByHourSegment = (index: number, segment: WeekViewHourSegment) => segment.date.toISOString()
-  trackByHour = (index: number, hour: WeekViewHour) => hour.segments[0].date.toISOString()
+  trackByWeekDayHeaderDate = (index: number, day: WeekDay) => day.date
+  trackByHourSegment = (index: number, segment: WeekViewHourSegment) => segment.date
+  trackByHour = (index: number, hour: WeekViewHour) => hour.segments[0].date
   trackByWeekAllDayEvent = (index: number, weekEvent: WeekViewAllDayEvent) => (weekEvent.event.id ? weekEvent.event.id : weekEvent.event)
   trackByWeekTimeEvent = (index: number, weekEvent: WeekViewTimeEvent) => (weekEvent.event.id ? weekEvent.event.id : weekEvent.event)
 
-  trackByHourColumn = (index: number, column: WeekViewHourColumn) => column.hours[0] ? column.hours[0].segments[0].date.toISOString() : column
+  trackByHourColumn = (index: number, column: WeekViewHourColumn) => column.hours[0] ? column.hours[0].segments[0].date : column
   trackById = (index: number, row: WeekViewAllDayEventRow) => row.id
 }

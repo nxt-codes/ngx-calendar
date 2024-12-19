@@ -3,9 +3,9 @@
         <!-- (mwlClick)="dayHeaderClicked.emit({ day: day, sourceEvent: $event.event })" -->
         <!-- [ngClass]="day.cssClass" -->
         <!-- mwlDroppable dragOverClass="cal-drag-over" (drop)="eventDropped.emit({ event: $event.dropData.event, newStart: day.date })" (dragEnter)="dragEnter.emit({ date: day.date })" -->
-        <b>{{ day.date | date: 'EEEE' }}</b><br />
+        <b>{{ day.date | date: 'EEEE' }}</b>
         <!-- | calendarDate : 'weekViewColumnHeader' : locale -->
-        <span>{{ day.date | date: 'MMM dd' }}</span>
+        <p>{{ day.date | date: 'MMM dd' }}</p>
         <!-- | calendarDate : 'weekViewColumnSubHeader' : locale -->
     </div>
 </div>

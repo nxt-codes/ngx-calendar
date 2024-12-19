@@ -269,6 +269,17 @@ export function getEndOfDay(date: Date): Date {
     date.setHours(23,59,59,999)
     return date
 }
+export function setMinutes(date: Date, minutes: number): Date {
+    date.setMinutes(minutes)
+    return date
+}
+export function setHours(date: Date, hours: number): Date {
+    date.setHours(hours)
+    return date
+}
+export function differenceInMinutes(date1: Date, date2: Date): number {
+    return Math.round((date2.getTime() - date1.getTime()) / 60000)
+}
 export function isSameDay(date1: Date, date2: Date): boolean {
     return date1.toDateString() === date2.toDateString()
 }
@@ -280,10 +291,11 @@ export function addDaysWithExclusions(date: Date, days: number, excluded: number
     return date
 }
 export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded: number[] = [], daysInWeek?: number): { viewStart: Date; viewEnd: Date } {
-    const startOfDay = getStartOfDay(viewDate).toString()
-    const startOfWeek = getStartOfWeek(viewDate, weekStartsOn).toString()
-    const endOfWeek = getEndOfWeek(viewDate, weekStartsOn).toString()
-    let viewStart = daysInWeek ? startOfDay : startOfWeek
+    const viewDay = viewDate
+    const startOfDay = getStartOfDay(viewDay).toString()
+    const startOfWeek = getStartOfWeek(viewDay, weekStartsOn).toString()
+    const endOfWeek = getEndOfWeek(viewDay, weekStartsOn).toString()
+    let viewStart = startOfWeek
     while (excluded.indexOf(viewDate.getDay()) > -1 && new Date(viewStart) < new Date(endOfWeek)) {
       viewStart = addDate(new Date(viewStart), 1).toString()
     }
