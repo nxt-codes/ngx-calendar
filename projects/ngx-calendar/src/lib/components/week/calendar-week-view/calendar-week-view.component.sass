@@ -14,22 +14,28 @@
       @apply flex grow border-l border-gray-300
 
   .cal-events-row
-    @apply relative h-12 ml-24
+    @apply relative ml-24
 
-    .cal-event-container
-      @apply absolute inline-block
+    .cal-events-container
+      @apply relative
 
-      &.resize-active
-        @apply z-10 pointer-events-none
+  // .cal-events-row
+  //   @apply relative h-8 ml-24
 
-      .cal-events
-        @apply flex m-1 flex-wrap items-end
+    // .cal-event-container
+    //   @apply absolute inline-block
 
-      .cal-event
-          @apply flex items-center h-2 mx-1 bg-red-200 border border-red-300 rounded-sm
+    //   &.resize-active
+    //     @apply z-10 pointer-events-none
 
-      .cal-event-time
-        @apply ml-2 text-xs
+    //   .cal-events
+    //     @apply flex m-1 flex-wrap items-end
+
+    //   .cal-event
+    //       @apply flex items-center h-2 mx-1 bg-red-200 border border-red-300 rounded-sm
+
+    //   .cal-event-time
+    //     @apply ml-2 text-xs
 
   .cal-time-events
     @apply relative flex border border-t-0 border-blue-300
@@ -40,30 +46,17 @@
     .cal-day-column
       @apply relative
 
-    .cal-events-container
-      @apply relative
+    // .cal-events-container
+    //   @apply relative
 
-    .cal-event-container
-      @apply absolute 
+    // .cal-event-container
+    //   @apply absolute 
 
-    .cal-event
-      @apply m-px
-      width: calc(100% - 2px)
-      height: calc(100% - 2px)
+    // .cal-event
+    //   @apply m-px
+    //   width: calc(100% - 2px)
+    //   height: calc(100% - 2px)
 
 // all day events
 .cal-all-day-events
-  @apply relative border border-t-0 border-yellow-300
-
-  .cal-day-columns
-    @apply absolute flex h-full w-full top-0
-
-  .cal-events-row
-    @apply relative h-12
-
-
-  .cal-resize-handle
-    @apply absolute h-full w-2 top-0 cursor-col-resize
-
-    &.cal-resize-handle-after-end
-      @apply right-0
+  @apply relative

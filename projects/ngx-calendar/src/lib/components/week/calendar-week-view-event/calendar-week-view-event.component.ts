@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { PlacementArray, WeekViewAllDayEvent, WeekViewHourColumn, WeekViewTimeEvent } from '../../../models/models';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +17,6 @@ export class CalendarWeekViewEventComponent {
   @Input() column!: WeekViewHourColumn
   @Input() daysInWeek!: number
   @Output() eventClicked = new EventEmitter<{
-    sourceEvent: MouseEvent | KeyboardEvent;
+    sourceEvent: MouseEvent | KeyboardEvent | any;
   }>();
 }

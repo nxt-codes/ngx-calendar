@@ -9,6 +9,7 @@ import { DefaultLibConfiguration, LibConfigurationProvider, LibToConfigureConfig
 import { CalendarWeekViewHeaderComponent } from '../calendar-week-view-header/calendar-week-view-header.component';
 import { CalendarWeekViewHourSegmentComponent } from '../calendar-week-view-hour-segment/calendar-week-view-hour-segment.component';
 import { CalendarWeekViewCurrentTimeMarkerComponent } from '../calendar-week-view-current-time-marker/calendar-week-view-current-time-marker.component';
+import { CalendarWeekViewEventComponent } from '../calendar-week-view-event/calendar-week-view-event.component';
 
 export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
   header: WeekDay[];
@@ -28,6 +29,7 @@ export interface WeekDay {
   standalone: true,
   imports: [
     CalendarWeekViewCurrentTimeMarkerComponent,
+    CalendarWeekViewEventComponent,
     CalendarWeekViewHeaderComponent,
     CalendarWeekViewHourSegmentComponent,
     CommonModule

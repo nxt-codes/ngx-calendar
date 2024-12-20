@@ -1,40 +1,6 @@
-
-
-<!-- <ng-template #defaultTemplate let-weekEvent="weekEvent" let-tooltipPlacement="tooltipPlacement"
-    let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody"
-    let-tooltipDisabled="tooltipDisabled" let-tooltipDelay="tooltipDelay" let-column="column"
-    let-daysInWeek="daysInWeek">
-    <div class="cal-event" [ngStyle]="{
-          color: weekEvent.event.color?.secondaryText,
-          backgroundColor: weekEvent.event.color?.secondary,
-          borderColor: weekEvent.event.color?.primary
-        }" [mwlCalendarTooltip]="
-          !tooltipDisabled
-            ? (weekEvent.event.title
-              | calendarEventTitle
-                : (daysInWeek === 1 ? 'dayTooltip' : 'weekTooltip')
-                : weekEvent.tempEvent || weekEvent.event)
-            : ''
-        " [tooltipPlacement]="tooltipPlacement" [tooltipEvent]="weekEvent.tempEvent || weekEvent.event"
-        [tooltipTemplate]="tooltipTemplate" [tooltipAppendToBody]="tooltipAppendToBody" [tooltipDelay]="tooltipDelay"
-        (mwlClick)="eventClicked.emit({ sourceEvent: $event })"
-        (mwlKeydownEnter)="eventClicked.emit({ sourceEvent: $event })" tabindex="0" role="application"
-        [attr.aria-label]="
-          { event: weekEvent.tempEvent || weekEvent.event, locale: locale }
-            | calendarA11y : 'eventDescription'
-        ">
-        <mwl-calendar-event-actions [event]="weekEvent.tempEvent || weekEvent.event"
-            [customTemplate]="eventActionsTemplate">
-        </mwl-calendar-event-actions>
-        &ngsp;
-        <mwl-calendar-event-title [event]="weekEvent.tempEvent || weekEvent.event" [customTemplate]="eventTitleTemplate"
-            [view]="daysInWeek === 1 ? 'day' : 'week'">
-        </mwl-calendar-event-title>
-    </div>
-</ng-template> -->
-
-<!-- <calendar-event-title [event]="weekEvent.event" [view]="daysInWeek === 1 ? 'day' : 'week'"></calendar-event-title> -->
-<p class="cal-event-actions">
-  <span class="cal-event-action">Action 1</span>
-</p>
-<p class="cal-event-title">Event-Title</p>
+<div class="cal-event" [ngStyle]="{ color: weekEvent.event.color?.secondaryText, backgroundColor: weekEvent.event.color?.secondary, borderColor: weekEvent.event.color?.primary }">
+  <p class="cal-event-actions">
+    <span class="cal-event-action">Action 1</span>
+  </p>
+  <p class="cal-event-title">Event-Title</p>
+</div>
