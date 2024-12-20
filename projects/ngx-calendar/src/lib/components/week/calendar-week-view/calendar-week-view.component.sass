@@ -45,10 +45,16 @@
       @apply flex grow pl-24
 
     .cal-day-column
-      @apply relative mr-2
+      @apply relative
+
+      .cal-hour + .cal-hour-odd
+        @apply bg-gray-50
 
     .cal-time-label-column
       @apply flex flex-col h-full w-24 items-center justify-center font-bold
+
+      .cal-hour + .cal-hour-odd
+        @apply bg-gray-50
 
       .cal-hour 
         .cal-hour-odd
