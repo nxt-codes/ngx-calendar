@@ -38,13 +38,31 @@
     //     @apply ml-2 text-xs
 
   .cal-time-events
-    @apply relative flex border border-t-0 border-blue-300
+    @apply relative flex border-t border-gray-300
+    //border border-t-0 border-blue-300
 
     .cal-day-columns
-      @apply flex grow
+      @apply flex grow pl-24
 
     .cal-day-column
+      @apply relative mr-2
+
+    .cal-time-label-column
+      @apply flex flex-col h-full w-24 items-center justify-center font-bold
+
+      .cal-hour 
+        .cal-hour-odd
+          @apply hidden
+
+    .cal-events-container
       @apply relative
+
+    .cal-day-column 
+      @apply flex flex-col flex-grow border-l border-red-500
+      
+      .cal-hour 
+      .cal-hour-odd
+        @apply hidden
 
     // .cal-events-container
     //   @apply relative

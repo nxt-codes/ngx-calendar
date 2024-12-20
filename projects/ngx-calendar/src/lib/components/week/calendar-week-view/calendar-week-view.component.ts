@@ -413,11 +413,6 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
     // allDayEventRows
     let allDayEvents = args.events?.filter((event: CalendarEvent) => event.allDay)
     allDayEvents?.forEach((event: CalendarEvent) => {
-      // event: CalendarEvent;
-      // offset: number;
-      // span: number;
-      // startsBeforeWeek: boolean;
-      // endsAfterWeek: boolean;
       let offset = 3
       let span = 3
       const endsAfterWeek: boolean = event.end ? event.end > period.end : false
@@ -426,6 +421,34 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
       const newEvent = { endsAfterWeek, event, offset, span, startsBeforeWeek }
       allDayEventRows.push({ row: [newEvent] })
     })
+
+    // hourcolumns
+    // let hourColumns: WeekViewHourColumn[] = []
+    let hourSegments: WeekViewHourSegment[] = []
+    let hours: WeekViewHour[] = []
+
+    let startOfView: Date = period.start
+    console.log('startOfView', startOfView)
+    let endOfView: Date = period.end
+    while (startOfView < endOfView) {
+      let hourColumn: WeekViewHourColumn = { date: new Date(startOfView.toString()), events: [], hours: [] }
+      
+      for (let i = this.dayStartHour; i <= this.dayEndHour; i++) {
+        let viewHour: WeekViewHour = { segments: [] }
+        let segments: WeekViewHourSegment[] = []
+        for (let j = 0; j < this.hourSegments; j++) {
+          const date = new Date(startOfView)
+          date.setMinutes((i * 60) + j * (60 / this.hourSegments))
+          segments.push({ date, isStart: (j==0) ? true : false, cssClass: '', displayDate: date })
+        }
+        viewHour.segments = segments
+        hourColumn.hours.push(viewHour)
+      }
+      
+      hourColumns.push(hourColumn)
+      startOfView = addDate(startOfView, 1)
+    }
+
 
     // if (args.viewStart && args.viewEnd) {
     //   hourColumns = this.prepareDayViewHourColumns(period, args.dayStart, args.dayEnd)

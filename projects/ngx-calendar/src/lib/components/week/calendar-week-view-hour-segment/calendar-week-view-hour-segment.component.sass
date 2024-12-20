@@ -3,3 +3,16 @@
 
     &::after
         content: '\00a0'
+
+    .cal-time
+        @apply w-24 pt-1
+
+    .cal-after-hour-start
+        .cal-time
+            @apply hidden
+
+.cal-starts-within-day .cal-event
+    @apply rounded-tl rounded-tr
+
+.cal-ends-within-day .cal-event
+    @apply rounded-bl rounded-br
