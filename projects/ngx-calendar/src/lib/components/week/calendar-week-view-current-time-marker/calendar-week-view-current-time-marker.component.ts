@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import { BehaviorSubject, interval, map, Observable, startWith, switchMap, switchMapTo } from 'rxjs';
-import { differenceInMinutes, isSameDay, setHours, setMinutes } from '../../../utils/myutils';
+import { differenceInMinutes, getEndOfDay, getStartOfDay, isSameDay, setHours, setMinutes } from '../../../utils/myutils';
 
 @Component({
   selector: 'calendar-week-view-current-time-marker',
@@ -29,13 +29,11 @@ export class CalendarWeekViewCurrentTimeMarkerComponent implements OnChanges {
     startWith(0),
     switchMapTo(this.columnDate$),
     map((columnDate) => {
-      const startOfDay = setMinutes(setHours(columnDate!, this.dayStartHour), this.dayStartMinute)
-      const endOfDay = setMinutes(setHours(columnDate!, this.dayEndHour), this.dayEndMinute)
       const hourHeightModifier = (this.hourSegments * this.hourSegmentHeight) / (this.hourDuration || 60)
       const now = new Date()
       return {
-        isVisible: isSameDay(columnDate!, now) && now >= startOfDay && now <= endOfDay,
-        top: differenceInMinutes(now, startOfDay) * hourHeightModifier
+        isVisible: isSameDay(columnDate!, now) && now >= new Date(getStartOfDay(columnDate!).toString()) && now <= new Date(getEndOfDay(columnDate!).toString()),
+        top: differenceInMinutes(new Date(getStartOfDay(columnDate!).toString()), now) * hourHeightModifier
       }
     })
   )

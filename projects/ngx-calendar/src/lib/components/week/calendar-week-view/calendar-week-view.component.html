@@ -33,7 +33,7 @@
             <div *ngFor="let hour of view.hourColumns[0].hours; trackBy: trackByHour; let odd = odd" class="cal-hour" [class.cal-hour-odd]="odd">
                 <calendar-week-view-hour-segment *ngFor="let segment of hour.segments; trackBy: trackByHourSegment"
                     [style.height.px]="hourSegmentHeight" [segment]="segment" [segmentHeight]="hourSegmentHeight"
-                    [isTimeLabel]="true" [daysInWeek]="daysInWeek">
+                    [isTimeLabel]="segment.isStart" [daysInWeek]="daysInWeek">
                 </calendar-week-view-hour-segment>
             </div>
         </div>
