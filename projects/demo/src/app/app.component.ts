@@ -44,10 +44,7 @@ export class AppComponent {
       start: new Date("2024-12-17T23:00:00.000Z"),
       end: new Date("2024-12-20T11:35:57.828Z"),
       title: "A 3 day event",
-      color: {
-          primary: "#ad2121",
-          secondary: "#FAE3E3"
-      },
+      color: colors.red,
       actions: [],
       allDay: true,
       resizable: {
