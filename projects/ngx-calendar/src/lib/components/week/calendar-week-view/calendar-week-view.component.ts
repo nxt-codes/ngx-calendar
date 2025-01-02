@@ -217,6 +217,9 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   getDayColumnWidth(eventRowContainer: HTMLElement): number {
     return Math.floor(eventRowContainer.offsetWidth / this.days.length)
   }
+  getEventRowContainerHeight(eventRowContainer: HTMLElement): number {
+    return Math.floor(eventRowContainer.offsetHeight)
+  }
 
   // dateDragEnter(date: Date) {
   //   this.lastDragEnterDate = date;

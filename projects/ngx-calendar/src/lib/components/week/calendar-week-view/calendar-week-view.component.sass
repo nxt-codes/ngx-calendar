@@ -1,11 +1,11 @@
-.cal-week-view
-  @apply bg-primary
+// .cal-week-view
+//   @apply absolute inset-0 flex flex-col
     
 .cal-all-day-events
-  @apply relative pt-1
+  // @apply py-1 border-t border-borderline
 
   .cal-day-columns
-    @apply absolute flex h-full w-full top-0
+    @apply absolute flex h-full w-full top-0 border-l border-borderline
 
     .cal-time-label-column
       @apply flex h-full w-24 items-center justify-center
@@ -38,7 +38,7 @@
     //     @apply ml-2 text-xs
 
   .cal-time-events
-    @apply relative flex border-t border-borderline
+    @apply relative flex
     //border border-t-0 border-blue-300
 
     .cal-day-columns
@@ -48,13 +48,13 @@
       @apply relative
 
       .cal-hour + .cal-hour-odd
-        @apply bg-tertiary
+        @apply bg-primary
 
     .cal-time-label-column
       @apply flex flex-col h-full w-24 items-center justify-center font-bold
 
       .cal-hour + .cal-hour-odd
-        @apply bg-tertiary
+        @apply bg-primary
 
       .cal-hour 
         .cal-hour-odd
@@ -64,7 +64,8 @@
       @apply relative
 
     .cal-day-column 
-      @apply flex flex-col flex-grow border-l border-borderline
+      @apply flex flex-col flex-grow 
+      // border-l border-borderline
       
       // .cal-hour, .cal-hour-odd
       //   @apply hidden
@@ -81,5 +82,5 @@
     //   height: calc(100% - 2px)
 
 // all day events
-.cal-all-day-events
-  @apply relative
+// .cal-all-day-events
+//   @apply absolute top-12 right-0 bottom-0 left-0
