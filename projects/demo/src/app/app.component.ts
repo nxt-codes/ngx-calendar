@@ -1,115 +1,48 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { CalendarDayViewComponent, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from '../../../ngx-calendar/src/public-api';
-import { CalendarModule } from '../../../ngx-calendar/src/lib/ngx-calendar.module';
-import { Subject } from 'rxjs';
-import { isSameDay } from '../../../ngx-calendar/src/lib/utils/myutils';
-import { CalendarWeekViewComponent } from '../../../ngx-calendar/src/lib/components/week/calendar-week-view/calendar-week-view.component';
-import { CommonModule } from '@angular/common';
-
-export const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  }
-}
+import { IconsComponent } from './shared/components/icons/icons.component';
+import { RouterModule } from '@angular/router';
+import { GithubService } from './core/services/github.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CalendarDayViewComponent,
-    CalendarWeekViewComponent,
-    CommonModule
-    // RouterOutlet
+    AsyncPipe,
+    CommonModule,
+    IconsComponent,
+    // JsonPipe,
+    RouterModule
+  ],
+  providers: [
+    GithubService
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  view: CalendarView = CalendarView.Week
+  repos$: Observable<any>
+  this_repo$: Observable<any>
+  user$: Observable<any>
 
-  viewDate: Date = new Date()
+  show_settings: boolean = false
+  name: string = ''
+  version: string = '0.0.1'
   
-  events: CalendarEvent[] = [
-    {
-      start: new Date("2024-12-17T23:00:00.000Z"),
-      end: new Date("2024-12-20T11:35:57.828Z"),
-      title: "A 3 day event",
-      color: colors.red,
-      actions: [],
-      allDay: true,
-      resizable: {
-          beforeStart: true,
-          afterEnd: true
-      },
-      draggable: true
-    },
-    {
-      title: 'An all day event',
-      color: colors.yellow,
-      start: new Date(),
-      allDay: true,
-    },
-    {
-      title: 'A non all day event',
-      color: colors.blue,
-      start: new Date(),
-    },
-  ];
+  constructor(private githubService: GithubService) {
+    this.repos$ = this.githubService.repos$
+    this.this_repo$ = this.githubService.this_repo$
+    this.user$ = this.githubService.user$
 
-  refresh = new Subject<void>()
+    this.name = this.githubService.getThisRepo()
+    this.version = this.githubService.getVersion()
+  }
 
-  validateEventTimesChanged = (
-    { event, newStart, newEnd, allDay }: CalendarEventTimesChangedEvent,
-    addCssClass = true
-  ) => {
-    if (event.allDay) {
-      return true;
-    }
-
-    delete event.cssClass;
-    // don't allow dragging or resizing events to different days
-    const sameDay = isSameDay(newStart, newEnd!);
-
-    if (!sameDay) {
-      return false;
-    }
-
-    // don't allow dragging events to the same times as other events
-    const overlappingEvent = this.events.find((otherEvent) => {
-      return (otherEvent !== event && !otherEvent.allDay && ((otherEvent.start < newStart && newStart < otherEvent.end!) || (otherEvent.start < newEnd! && newStart < otherEvent.end!))
-      );
-    });
-
-    if (overlappingEvent) {
-      if (addCssClass) {
-        event.cssClass = 'invalid-position';
-      } else {
-        return false;
-      }
-    }
-
-    return true;
-  };
-  
-  eventTimesChanged(
-    eventTimesChangedEvent: CalendarEventTimesChangedEvent
-  ): void {
-    delete eventTimesChangedEvent.event.cssClass;
-    if (this.validateEventTimesChanged(eventTimesChangedEvent, false)) {
-      const { event, newStart, newEnd } = eventTimesChangedEvent;
-      event.start = newStart;
-      event.end = newEnd;
-      this.refresh.next();
-    }
+  toggleSettings() {
+    this.show_settings = !this.show_settings
+  }
+  toggleTheme() {
+    this.toggleSettings()
   }
 }

@@ -1,16 +1,9 @@
 <div class="cal-week-view absolute inset-0 flex flex-col">
-  <div class="fixed flex-none h-24 w-full bg-tertiary py-2 z-10">
-    <calendar-week-view-header [days]="days" (dayHeaderClicked)="dayHeaderClicked.emit($event)">
-      <!-- [locale]="locale" [customTemplate]="headerTemplate" -->
-      <!-- (eventDropped)="eventDropped({ dropData: $event }, $event.newStart, true)" (dragEnter)="dateDragEnter($event.date)" -->
-    </calendar-week-view-header>
-  </div>
-
-  <!-- <div class="absolute top-24 right-0 bottom-0 left-0 bg-yellow-400 scrollbar-hide">
-    <div class="h-96 bg-red-200"></div>
-    <div class="h-96 bg-red-300"></div>
-    <div class="h-96 bg-red-400"></div>
-  </div> -->
+    <div class="relative fixed flex-none h-24 w-full bg-tertiary py-2 z-10">
+      <calendar-week-view-header [days]="days" (dayHeaderClicked)="dayHeaderClicked.emit($event)">
+        <!-- [locale]="locale" [customTemplate]="headerTemplate" (eventDropped)="eventDropped({ dropData: $event }, $event.newStart, true)" (dragEnter)="dateDragEnter($event.date)" -->
+      </calendar-week-view-header>
+    </div>
 
   <!-- <div class="absolute top-24 right-0 bottom-0 left-0 scrollbar-hide"> -->
     <div class="cal-all-day-events flex flex-col absolute top-24 right-0 bottom-0 left-0 scrollbar-hide" #allDayEventsContainer *ngIf="view.allDayEventRows.length > 0">
@@ -23,7 +16,7 @@
           mwlDroppable dragOverClass="cal-drag-over" (drop)="eventDropped($event, day.date, true)" (dragEnter)="dateDragEnter(day.date)"
         </div>
       </div> -->
-      <div class="fixed w-full py-2 bg-primary border-y border-borderline z-10" #eventRowContainers>
+      <div class="relative fixed w-full py-2 bg-primary border-y border-borderline z-10" #eventRowContainers>
         <div *ngFor="let eventRow of view.allDayEventRows; trackBy: trackById" #eventRowContainer class="cal-events-row">
           <div *ngFor=" let allDayEvent of eventRow.row; trackBy: trackByWeekAllDayEvent" #event class="cal-event-container" [class.cal-starts-within-week]="!allDayEvent.startsBeforeWeek" [class.cal-ends-within-week]="!allDayEvent.endsAfterWeek" [style.width.%]="(100 / days.length) * allDayEvent.span" [style.marginLeft.%]="rtl ? null : (100 / days.length) * allDayEvent.offset" [style.marginRight.%]="rtl ? (100 / days.length) * allDayEvent.offset : null">
             <!-- [ngClass]="allDayEvent.event?.cssClass" [class.cal-draggable]="allDayEvent.event.draggable && allDayEventResizes.size === 0" mwlResizable [resizeCursors]="resizeCursors" [resizeSnapGrid]="{ left: dayColumnWidth, right: dayColumnWidth }" [validateResize]="validateResize" (resizeStart)="allDayEventResizeStarted(eventRowContainer, allDayEvent, $event)" (resizing)="allDayEventResizing(allDayEvent, $event, dayColumnWidth)" (resizeEnd)="allDayEventResizeEnded(allDayEvent)" mwlDraggable dragActiveClass="cal-drag-active" [dropData]="{ event: allDayEvent.event, calendarId: calendarId }" [dragAxis]="{ x: allDayEvent.event.draggable && allDayEventResizes.size === 0, y: !snapDraggedEvents && allDayEvent.event.draggable && allDayEventResizes.size === 0 }" [dragSnapGrid]="snapDraggedEvents ? { x: dayColumnWidth } : {}" [validateDrag]="validateDrag" [touchStartLongPress]="{ delay: 300, delta: 30 }" (dragStart)="dragStarted(eventRowContainer, event, allDayEvent, false)" (dragging)="allDayEventDragMove()" (dragEnd)="dragEnded(allDayEvent, $event, dayColumnWidth)" -->
@@ -40,7 +33,8 @@
         </div>
       </div>
     
-      <div class="cal-time-events" [style.marginTop.px]="getEventRowContainerHeight(eventRowContainers)">
+      <div class="cal-time-events">
+        <!-- [style.marginTop.px]="getEventRowContainerHeight(eventRowContainers)" -->
         <!-- mwlDroppable (dragEnter)="dragEnter('time')" (dragLeave)="dragLeave('time')" -->
         <div class="cal-time-label-column" *ngIf="view.hourColumns.length > 0 && daysInWeek !== 1">
           <div *ngFor="let hour of view.hourColumns[0].hours; trackBy: trackByHour; let odd = odd" class="cal-hour" [class.cal-hour-odd]="odd">
