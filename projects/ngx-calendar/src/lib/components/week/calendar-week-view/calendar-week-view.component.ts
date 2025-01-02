@@ -92,6 +92,8 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   constructor(protected cdr: ChangeDetectorRef, protected element: ElementRef<HTMLElement>, public configurationProvider: LibConfigurationProvider, private defaultLibConfiguration: DefaultLibConfiguration) {
     this.config = Object.assign(defaultLibConfiguration.config, configurationProvider.config)
     console.log('viewDate', this.viewDate)
+    
+    console.warn('view', this.view)
   }
 
   ngAfterViewInit(): void {
