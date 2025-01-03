@@ -4,7 +4,7 @@ import { CalendarEvent, CalendarEventTimesChangedEvent, DayViewScheduler, GetWee
 import { Subject, Subscription } from 'rxjs';
 import { ResizeCursors, ResizeEvent } from '@christophhu/ngx-resizeable/public-api';
 import { DragMoveEvent, DropEvent } from '@christophhu/ngx-drag-n-drop/public-api';
-import { addDate, getDayObject, getWeekViewPeriod, validateEvents } from '../../../utils/myutils';
+import { addDate, getDayObject, getHours, getWeekViewPeriod, isSameDay, startOfHour, validateEvents } from '../../../utils/myutils';
 import { DefaultLibConfiguration, LibConfigurationProvider, LibToConfigureConfiguration } from '../../../config/calendar-config';
 import { CalendarWeekViewHeaderComponent } from '../calendar-week-view-header/calendar-week-view-header.component';
 import { CalendarWeekViewHourSegmentComponent } from '../calendar-week-view-hour-segment/calendar-week-view-hour-segment.component';
@@ -415,6 +415,9 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
     let hourColumns: WeekViewHourColumn[] = []
     let allDayEventRows: WeekViewAllDayEventRow[] = []
 
+    let startOfView: Date = period.start
+    let endOfView: Date = period.end
+
     // allDayEventRows
     let allDayEvents = args.events?.filter((event: CalendarEvent) => event.allDay)
     allDayEvents?.forEach((event: CalendarEvent) => {
@@ -427,13 +430,9 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
       allDayEventRows.push({ row: [newEvent] })
     })
 
-    // hourcolumns
-    // let hourSegments: WeekViewHourSegment[] = []
-    // let hours: WeekViewHour[] = []
+    // dayEvents
+    let events = args.events?.filter((event: CalendarEvent) => !event.allDay)
 
-    let startOfView: Date = period.start
-    console.log('startOfView', startOfView)
-    let endOfView: Date = period.end
     while (startOfView < endOfView) {
       let hourColumn: WeekViewHourColumn = { date: new Date(startOfView.toString()), events: [], hours: [] }
       
@@ -449,20 +448,44 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
         hourColumn.hours.push(viewHour)
       }
 
-      let events = args.events?.filter((event: CalendarEvent) => !event.allDay)
-      console.warn('day events', events)
       events?.forEach((event: CalendarEvent) => {
-        let events: CalendarEvent[] = []
 
-        console.log('event', event)
-        hourColumn.events.push({ event, height: 0, width: 0, top: 0, left: 0, startsBeforeDay: false, endsAfterDay: false })
+        // if (event.start < period.end && (!event.end || event.end > period.start)) {
+        //   console.log('event filtered', event)
+        // }
+        let top: number = 0
+        let height: number = 0
+
+        switch (true) {
+          case isSameDay(event.start, startOfView) && !event.end:
+            
+            top = getHours(startOfHour(event.start)) * this.hourSegments * this.hourSegmentHeight
+            console.log('top', top)
+            break
+          case isSameDay(event.start, startOfView) && event.end && isSameDay(event.end, startOfView):
+
+            break
+        }
+        if (isSameDay(event.start, startOfView)) {
+          
+
+          
+          let startsBeforeDay: boolean = event.start < startOfView
+          let endsAfterDay: boolean = event.end ? event.end > endOfView : false
+  
+          console.log('event', event)
+          hourColumn.events.push({ event, height: this.minimumEventHeight, width: 100, top, left: 0, startsBeforeDay, endsAfterDay })
+        }
+        
       })
+      
       
       
       hourColumns.push(hourColumn)
       startOfView = addDate(startOfView, 1)
     }
 
+    console.warn('hourColumns', hourColumns)
 
     // if (args.viewStart && args.viewEnd) {
     //   hourColumns = this.prepareDayViewHourColumns(period, args.dayStart, args.dayEnd)

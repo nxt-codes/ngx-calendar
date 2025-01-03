@@ -310,6 +310,15 @@ export function getWeekViewPeriod(viewDate: Date, weekStartsOn: number, excluded
       return { viewStart: new Date(viewStart), viewEnd }
     }
 }
+export function startOfHour(date: Date): Date {
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    return date
+}
+export function getHours(date: Date): number {
+    return date.getHours()
+}
 export const validateEvents = (events: CalendarEvent[]) => {
     const warn = (...args: any[]) => console.warn('angular-calendar', ...args)
     return validateEventsWithoutLog(events, warn)
