@@ -39,10 +39,10 @@ export class OverviewComponent {
   
   events: CalendarEvent[] = [
     {
-      start: new Date("2024-12-17T23:00:00.000Z"),
-      end: new Date("2024-12-20T11:35:57.828Z"),
+      start: new Date("2025-01-02T23:00:00.000Z"),
+      end: new Date("2025-01-04T11:35:57.828Z"),
       title: "A 3 day event",
-      color: colors.blue,
+      color: colors.red,
       actions: [],
       allDay: true,
       resizable: {

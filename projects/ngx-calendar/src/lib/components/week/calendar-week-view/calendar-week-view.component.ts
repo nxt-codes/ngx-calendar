@@ -92,7 +92,7 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
   constructor(protected cdr: ChangeDetectorRef, protected element: ElementRef<HTMLElement>, public configurationProvider: LibConfigurationProvider, private defaultLibConfiguration: DefaultLibConfiguration) {
     this.config = Object.assign(defaultLibConfiguration.config, configurationProvider.config)
     console.log('viewDate', this.viewDate)
-    
+    console.log('events', this.events)
     console.warn('view', this.view)
   }
 
@@ -428,9 +428,8 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
     })
 
     // hourcolumns
-    // let hourColumns: WeekViewHourColumn[] = []
-    let hourSegments: WeekViewHourSegment[] = []
-    let hours: WeekViewHour[] = []
+    // let hourSegments: WeekViewHourSegment[] = []
+    // let hours: WeekViewHour[] = []
 
     let startOfView: Date = period.start
     console.log('startOfView', startOfView)
@@ -449,6 +448,16 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
         viewHour.segments = segments
         hourColumn.hours.push(viewHour)
       }
+
+      let events = args.events?.filter((event: CalendarEvent) => !event.allDay)
+      console.warn('day events', events)
+      events?.forEach((event: CalendarEvent) => {
+        let events: CalendarEvent[] = []
+
+        console.log('event', event)
+        hourColumn.events.push({ event, height: 0, width: 0, top: 0, left: 0, startsBeforeDay: false, endsAfterDay: false })
+      })
+      
       
       hourColumns.push(hourColumn)
       startOfView = addDate(startOfView, 1)
