@@ -17,6 +17,10 @@ export class CalendarWeekViewEventComponent {
   @Input() column!: WeekViewHourColumn
   @Input() daysInWeek!: number
   @Output() eventClicked = new EventEmitter<{
-    sourceEvent: MouseEvent | KeyboardEvent | any;
-  }>();
+    sourceEvent: MouseEvent | KeyboardEvent | any
+  }>()
+
+  constructor() {
+    console.log('CalendarWeekViewEventComponent', this.weekEvent)
+  }
 }

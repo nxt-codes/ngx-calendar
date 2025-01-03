@@ -10,6 +10,7 @@ import { CalendarWeekViewHeaderComponent } from '../calendar-week-view-header/ca
 import { CalendarWeekViewHourSegmentComponent } from '../calendar-week-view-hour-segment/calendar-week-view-hour-segment.component';
 import { CalendarWeekViewCurrentTimeMarkerComponent } from '../calendar-week-view-current-time-marker/calendar-week-view-current-time-marker.component';
 import { CalendarWeekViewEventComponent } from '../calendar-week-view-event/calendar-week-view-event.component';
+import { colors } from '../../../../../../demo/src/app/modules/overview/overview.component';
 
 export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
   header: WeekDay[];
@@ -467,14 +468,27 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy, 
             break
         }
         if (isSameDay(event.start, startOfView)) {
-          
-
-          
           let startsBeforeDay: boolean = event.start < startOfView
           let endsAfterDay: boolean = event.end ? event.end > endOfView : false
   
-          console.log('event', event)
           hourColumn.events.push({ event, height: this.minimumEventHeight, width: 100, top, left: 0, startsBeforeDay, endsAfterDay })
+          hourColumn.events.push({ event: { start: new Date("2025-01-03T07:00:00.000Z"), end: new Date("2025-01-03T13:00:00.000Z"),
+                title: "A draggable and resizable event",
+                color: colors.blue,
+                actions: [],
+                resizable: {
+                    beforeStart: true,
+                    afterEnd: true
+                },
+                draggable: true
+            },
+            height: 360,
+            width: 100,
+            top: 120,
+            left: 0,
+            startsBeforeDay: false,
+            endsAfterDay: false
+        })
         }
         
       })

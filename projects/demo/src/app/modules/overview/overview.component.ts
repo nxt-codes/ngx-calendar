@@ -59,7 +59,7 @@ export class OverviewComponent {
     },
     {
       title: 'A non all day event',
-      color: colors.red,
+      color: colors.blue,
       start: new Date(),
     },
   ];
