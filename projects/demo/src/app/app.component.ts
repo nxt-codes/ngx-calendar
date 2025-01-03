@@ -4,6 +4,7 @@ import { IconsComponent } from './shared/components/icons/icons.component';
 import { RouterModule } from '@angular/router';
 import { GithubService } from './core/services/github.service';
 import { Observable } from 'rxjs';
+import { OverviewComponent } from './modules/overview/overview.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
     AsyncPipe,
     CommonModule,
     IconsComponent,
+    // OverviewComponent,
     // JsonPipe,
     RouterModule
   ],

@@ -1,27 +1,44 @@
 # NgxCalendar
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+## Demo
+<p align="center">
+  <a href="https://christophhu.github.io/ngx-calendar"><img src="https://github.com/ChristophHu/ChristophHu/blob/main/assets/img/ngx-calendar.png" width="500" alt="image" /></a>
+</p>
 
-## Development server
+## Description
+This Library is a simple calendar component that can be used in any angular project. It is a simple calendar component that can be used to display the calendar of any month and year. It also has the ability to select a date and highlight it. The selected date can be used to perform any action like displaying the events of that date or any other action.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Frameworks and Languages
 
-## Code scaffolding
+<p align="left">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Angular-000000.svg?style=for-the-badge&logo=angular&logoColor=white&labelColor=000000&color=000000">
+  <img alt="Static Badge" src="https://img.shields.io/badge/HTML5-000000.svg?style=for-the-badge&logo=html5&logoColor=white&labelColor=E34F26&color=000000">
+  <img alt="Static Badge" src="https://img.shields.io/badge/SASS-000000.svg?style=for-the-badge&logo=sass&logoColor=white&labelColor=CC6699&color=000000">
+  <img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-000000.svg?style=for-the-badge&logo=typescript&logoColor=white&labelColor=007ACC&color=000000">
+</p>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
+To run this project, you need to have Node.js installed on your machine. Clone the repository and run the following commands:
 
-## Build
+```bash
+npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Usage
+To run the project, use the following command:
 
-## Running unit tests
+```bash
+ng serve
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## License
+This project is licensed under the MIT License.
 
-## Running end-to-end tests
+The MIT License (MIT)
+Copyright © 2024 <copyright holders>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-## Further help
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

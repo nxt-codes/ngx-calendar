@@ -21,7 +21,7 @@ export const colors: any = {
 }
 
 @Component({
-  selector: 'app-overview',
+  selector: 'overview',
   standalone: true,
   imports: [
     CalendarDayViewComponent,
@@ -42,7 +42,7 @@ export class OverviewComponent {
       start: new Date("2025-01-02T23:00:00.000Z"),
       end: new Date("2025-01-04T11:35:57.828Z"),
       title: "A 3 day event",
-      color: colors.red,
+      color: colors.blue,
       actions: [],
       allDay: true,
       resizable: {
